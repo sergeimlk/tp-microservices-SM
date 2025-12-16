@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  gateway:
+    image: ${DOCKERHUB_USERNAME}/tp-gateway:latest
+    ports:
+      - "3002:3002"
+    restart: always
+
+  game-service:
+    image: ${DOCKERHUB_USERNAME}/tp-game-service:latest
+    restart: always
+
+  music-service:
+    image: ${DOCKERHUB_USERNAME}/tp-music-service:latest
+    restart: always

@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    depends_on:
+      - music-service
+      - game-service
+    networks:
+      - app-network
+
+  game-service:
+    build:
+      context: ./service-jeux
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  music-service:
+    build:
+      context: ./service-musique
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
