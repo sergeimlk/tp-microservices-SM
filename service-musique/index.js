@@ -1,7 +1,7 @@
 import express from 'express';
 
 let musics = [
-  { id: 1, title: 'Song One', artist: 'Artist A' },
+  { id: 1, title: 'Song Unoooooo', artist: 'Artist A' },
   { id: 2, title: 'Song Two', artist: 'Artist B' }
 ]
 
