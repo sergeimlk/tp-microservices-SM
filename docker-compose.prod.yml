@@ -1,15 +1,24 @@
-version: "3.8"
 services:
   gateway:
-    image: ${DOCKERHUB_USERNAME}/tp-gateway:latest
+    image: sergeimlk/tp-microservices-gateway:latest
     ports:
       - "3002:3002"
-    restart: always
+    depends_on:
+      - music-service
+      - game-service
+    networks:
+      - app-network
 
   game-service:
-    image: ${DOCKERHUB_USERNAME}/tp-game-service:latest
-    restart: always
+    image: sergeimlk/tp-microservices-jeux:latest
+    networks:
+      - app-network
 
   music-service:
-    image: ${DOCKERHUB_USERNAME}/tp-music-service:latest
-    restart: always
+    image: sergeimlk/tp-microservices-musique:latest
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

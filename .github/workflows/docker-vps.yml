@@ -54,11 +54,36 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }} # Plus simple que la clé SSH
           port: 22
           script: |
-            # On va dans le dossier root (ou là où est le docker-compose.yml)
-            cd /root
+            # Créer le contenu du docker-compose.prod.yml directement
+            cat <<EOF > /root/docker-compose.yml
+            services:
+              gateway:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/tp-microservices-gateway:latest
+                ports:
+                  - "3002:3002"
+                depends_on:
+                  - music-service
+                  - game-service
+                networks:
+                  - app-network
+
+              game-service:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/tp-microservices-jeux:latest
+                networks:
+                  - app-network
+
+              music-service:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/tp-microservices-musique:latest
+                networks:
+                  - app-network
+
+            networks:
+              app-network:
+                driver: bridge
+            EOF
             
             # On récupère les dernières images
             docker compose pull
             
-            # On relance les conteneurs
-            docker compose up -d
+            # On relance les conteneurs (avec --force-recreate pour être sûr)
+            docker compose up -d --force-recreate
