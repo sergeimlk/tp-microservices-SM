@@ -60,7 +60,7 @@ jobs:
               gateway:
                 image: ${{ secrets.DOCKERHUB_USERNAME }}/tp-microservices-gateway:latest
                 ports:
-                  - "3002:3002"
+                  - "80:3002"
                 depends_on:
                   - music-service
                   - game-service

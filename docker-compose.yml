@@ -1,11 +1,9 @@
-version: "3.8"
+cat <<EOF > docker-compose.yml
 services:
   gateway:
-    build:
-      context: ./gateway
-      dockerfile: Dockerfile
+    image: sergeimlk/tp-microservices-gateway:latest
     ports:
-      - "3002:3002"
+      - "80:3002"  # <--- MAGIE ! On ouvre le port 80
     depends_on:
       - music-service
       - game-service
@@ -13,19 +11,16 @@ services:
       - app-network
 
   game-service:
-    build:
-      context: ./service-jeux
-      dockerfile: Dockerfile
+    image: sergeimlk/tp-microservices-jeux:latest
     networks:
       - app-network
 
   music-service:
-    build:
-      context: ./service-musique
-      dockerfile: Dockerfile
+    image: sergeimlk/tp-microservices-musique:latest
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+EOF
